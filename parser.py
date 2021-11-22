@@ -22,6 +22,12 @@ class Parser:
         """
         return len(self.file_input) > 0
 
+    def advance(self) -> str:
+        """
+        reads next instruction from the input. 
+        """
+        return ''
+
 if __name__ == '__main__':
     import doctest
     doctest.testmod(extraglobs={'p': Parser('test.asm')})
