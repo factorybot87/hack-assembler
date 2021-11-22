@@ -82,6 +82,16 @@ class Parser:
         else:
             return self.instruction[1:-1]
 
+    def dest(self) -> str:
+        """
+        returns the dest part of the c instruction.
+
+        >>> p.instruction = 'D=A'
+        >>> p.dest()
+        'D'
+        """
+        return self.instruction[:self.instruction.find('=')]
+
 if __name__ == '__main__':
     import doctest
     doctest.testmod(extraglobs={'p': Parser('Add.asm')})
