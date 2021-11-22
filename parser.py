@@ -89,8 +89,14 @@ class Parser:
         >>> p.instruction = 'D=A'
         >>> p.dest()
         'D'
+        >>> p.instruction = '0;JMP'
+        >>> p.dest()
+        'null'
         """
-        return self.instruction[:self.instruction.find('=')]
+        if '=' in self.instruction:
+            return self.instruction[:self.instruction.find('=')]
+        else:
+            return 'null'
 
     def comp(self) -> str:
         """
@@ -115,8 +121,14 @@ class Parser:
         >>> p.instruction = '0;JMP'
         >>> p.jump()
         'JMP'
+        >>> p.instruction = 'D=A'
+        >>> p.jump()
+        'null'
         """
-        return self.instruction[self.instruction.find(';') + 1:]
+        if ';' in self.instruction:
+            return self.instruction[self.instruction.find(';') + 1:]
+        else:
+            return 'null'
 
 if __name__ == '__main__':
     import doctest
