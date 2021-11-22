@@ -108,6 +108,16 @@ class Parser:
         else:
             return self.instruction[:self.instruction.find(';')]
 
+    def jump(self) -> str:
+        """
+        returns the jump part of the c instruction
+
+        >>> p.instruction = '0;JMP'
+        >>> p.jump()
+        'JMP'
+        """
+        return self.instruction[self.instruction.find(';') + 1:]
+
 if __name__ == '__main__':
     import doctest
     doctest.testmod(extraglobs={'p': Parser('Add.asm')})
