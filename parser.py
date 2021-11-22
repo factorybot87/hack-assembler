@@ -12,6 +12,16 @@ class Parser:
 
     def has_more_lines(self) -> bool:
         """
-        returns True if there are more lines in the input
+        returns True if there are more lines in the input.
+
+        >>> p.has_more_lines()
+        True
+        >>> p.file_input = []
+        >>> p.has_more_lines()
+        False
         """
-        return len(self.input_file) > 0
+        return len(self.file_input) > 0
+
+if __name__ == '__main__':
+    import doctest
+    doctest.testmod(extraglobs={'p': Parser('test.asm')})
