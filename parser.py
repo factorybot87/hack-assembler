@@ -1,4 +1,8 @@
 class Parser:
+    A_INSTRUCTION = 0
+    C_INSTRUCTION = 1
+    L_INSTRUCTION = 2
+
     def __init__(self, file: str):
         """
         arguments:
@@ -37,6 +41,12 @@ class Parser:
         if '//' in instruction:
             instruction = instruction[:instruction.find('//')]
         self.instruction = instruction.strip()
+
+    def instruction_type(self) -> int:
+        """
+        returns the type of current instruction.
+        """
+        return 0
             
 if __name__ == '__main__':
     import doctest
