@@ -31,7 +31,7 @@ class Assembler:
             parser.advance()
             if parser.instruction_type() == parser.A_INSTRUCTION:
                 binary = self.A_PREFIX + \
-                         Assembler.convert_decimal_to_15_bits_binary(int(parser.symbol()))
+                         Assembler.convert_decimal_to_binary_bits(int(parser.symbol()))
             elif parser.instruction_type() == parser.C_INSTRUCTION:
                 binary = self.C_PREFIX + \
                          code.comp(parser.comp()) + \
@@ -44,9 +44,9 @@ class Assembler:
             for code in self.binary_code:
                 f.writelines(code + '\n')
 
-    def convert_decimal_to_15_bits_binary(n: int) -> str:
+    def convert_decimal_to_binary_bits(n: int) -> str:
         """
-        >>> Assembler.convert_decimal_to_15_bits_binary(10)
+        >>> Assembler.convert_decimal_to_binary_bits(10)
         '000000000001010'
         """
         return str(bin(n))[2:].zfill(Assembler.WIDTH - len(Assembler.A_PREFIX))
