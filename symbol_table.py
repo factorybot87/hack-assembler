@@ -33,8 +33,12 @@ class SymbolTable:
     def add_entry(self, symbol: str, address: int):
         """
         adds <symbol, address> pair to the table.
+        
+        >>> t.add_entry('ANSWER', 42)
+        >>> t.symbol_table['ANSWER']
+        42
         """
-        pass
+        self.symbol_table[symbol] = address
 
     def contains(self, symbol: str) -> bool:
         """
@@ -47,3 +51,7 @@ class SymbolTable:
         returns the address associated with the symbol.
         """
         pass
+
+if __name__ == '__main__':
+    import doctest
+    doctest.testmod(extraglobs={'t': SymbolTable()})
