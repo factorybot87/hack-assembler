@@ -54,8 +54,11 @@ class SymbolTable:
     def get_address(self, symbol: str) -> int:
         """
         returns the address associated with the symbol.
+
+        >>> t.get_address('R0')
+        0
         """
-        pass
+        return self.symbol_table[symbol]
 
 if __name__ == '__main__':
     import doctest
