@@ -30,4 +30,4 @@ class Parser:
 
 if __name__ == '__main__':
     import doctest
-    doctest.testmod(extraglobs={'p': Parser('test.asm')})
+    doctest.testmod(extraglobs={'p': Parser('Add.asm')})
