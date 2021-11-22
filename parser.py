@@ -14,4 +14,4 @@ class Parser:
         """
         returns True if there are more lines in the input
         """
-        return False
+        return len(self.input_file) > 0
