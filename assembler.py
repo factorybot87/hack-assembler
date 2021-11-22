@@ -34,13 +34,15 @@ class Assembler:
                          Assembler.convert_decimal_to_15_bits_binary(int(parser.symbol()))
             elif parser.instruction_type() == parser.C_INSTRUCTION:
                 binary = self.C_PREFIX + \
-                         code.dest(parser.dest()) + \
                          code.comp(parser.comp()) + \
+                         code.dest(parser.dest()) + \
                          code.jump(parser.jump())
             self.binary_code.append(binary)
 
     def save(self):
-        pass
+        with open(self.file.replace('asm', 'hack'), 'w') as f:
+            for code in self.binary_code:
+                f.writelines(code + '\n')
 
     def convert_decimal_to_15_bits_binary(n: int) -> str:
         """
@@ -56,6 +58,7 @@ def main():
     else:
         assembler = Assembler(sys.argv[1])
         assembler.convert()
+        assembler.save()
 
 if __name__ == '__main__':
     import doctest
