@@ -18,9 +18,6 @@ class Parser:
 
         >>> p.has_more_lines()
         True
-        >>> p.input_file = []
-        >>> p.has_more_lines()
-        False
         """
         return len(self.input_file) > 0
 
@@ -29,6 +26,10 @@ class Parser:
         reads next instruction from the input.
         skips empty line and comment.
         removes inline comment
+
+        >>> p.advance()
+        >>> p.instruction
+        '@2'
         """
         instruction = self.input_file.pop(0)
         while instruction == '\n' or instruction.startswith('//'):
