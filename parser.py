@@ -45,8 +45,26 @@ class Parser:
     def instruction_type(self) -> int:
         """
         returns the type of current instruction.
+
+        >>> p.instruction = '@2'
+        >>> p.instruction_type()
+        0
+        >>> p.instruction = 'D=A'
+        >>> p.instruction_type()
+        1
+        >>> p.instruction = '0;jmp'
+        >>> p.instruction_type()
+        1
+        >>> p.instruction = '(LABEL)'
+        >>> p.instruction_type()
+        2
         """
-        return 0
+        if '@' in self.instruction:
+            return self.A_INSTRUCTION
+        elif '=' in self.instruction or ';' in self.instruction:
+            return self.C_INSTRUCTION
+        else:
+            return self.L_INSTRUCTION
             
 if __name__ == '__main__':
     import doctest
