@@ -9,3 +9,9 @@ class Parser:
         """
         with open(file) as f:
             self.lines = f.readlines()
+
+    def has_more_lines(self) -> bool:
+        """
+        returns True if there are more lines in the input
+        """
+        return False
