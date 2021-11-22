@@ -5,10 +5,10 @@ class Parser:
         file: the filename of the hack program 
 
         attributes:
-        file_input: list of lines that reads from file.
+        input_file: list of lines that reads from file.
         """
         with open(file) as f:
-            self.file_input = f.readlines()
+            self.input_file = f.readlines()
 
     def has_more_lines(self) -> bool:
         """
@@ -16,11 +16,11 @@ class Parser:
 
         >>> p.has_more_lines()
         True
-        >>> p.file_input = []
+        >>> p.input_file = []
         >>> p.has_more_lines()
         False
         """
-        return len(self.file_input) > 0
+        return len(self.input_file) > 0
 
     def advance(self) -> str:
         """
