@@ -16,7 +16,9 @@ class Code:
     def dest(self, symbol: str) -> str:
         """
         translates symbol into 3 bits binary code.
-        >>> 
+
+        >>> c.dest('null')
+        '000'
         """
         return self.DEST[symbol]
 
@@ -31,3 +33,7 @@ class Code:
         translates symbol into 3 bits binary code.
         """
         pass
+
+if __name__ == '__main__':
+    import doctest
+    doctest.testmod(extraglobs={'c': Code()})
