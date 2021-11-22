@@ -92,6 +92,22 @@ class Parser:
         """
         return self.instruction[:self.instruction.find('=')]
 
+    def comp(self) -> str:
+        """
+        returns the comp part of the c instruction.
+
+        >>> p.instruction = 'D=A'
+        >>> p.comp()
+        'A'
+        >>> p.instruction = '0;JMP'
+        >>> p.comp()
+        '0'
+        """
+        if '=' in self.instruction:
+            return self.instruction[self.instruction.find('=') + 1:]
+        else:
+            return self.instruction[:self.instruction.find(';')]
+
 if __name__ == '__main__':
     import doctest
     doctest.testmod(extraglobs={'p': Parser('Add.asm')})
