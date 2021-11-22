@@ -40,7 +40,16 @@ class Code:
         'D|A': '010101',
         'D|M': '010101'
     }
-    JUMP = {}
+    JUMP = {
+        'null': '000',
+        'JGT':  '001',
+        'JEQ':  '010',
+        'JGE':  '011',
+        'JLT':  '100',
+        'JNE':  '101',
+        'JLE':  '110',
+        'JMP':  '111'
+    }
 
     def dest(self, symbol: str) -> str:
         """
@@ -66,8 +75,11 @@ class Code:
     def jump(self, symbol: str) -> str:
         """
         translates symbol into 3 bits binary code.
+
+        >>> c.jump('null')
+        '000'
         """
-        pass
+        return self.JUMP[symbol]
 
 if __name__ == '__main__':
     import doctest
