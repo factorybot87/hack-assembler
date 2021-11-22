@@ -65,7 +65,23 @@ class Parser:
             return self.C_INSTRUCTION
         else:
             return self.L_INSTRUCTION
-            
+
+    def symbol(self) -> str:
+        """
+        returns xxx if current instruction is @xxx or (xxx)
+
+        >>> p.instruction = '@xxx'
+        >>> p.symbol()
+        'xxx'
+        >>> p.instruction = '(xxx)'
+        >>> p.symbol()
+        'xxx'
+        """
+        if self.instruction_type() == self.A_INSTRUCTION:
+            return self.instruction[1:]
+        else:
+            return self.instruction[1:-1]
+
 if __name__ == '__main__':
     import doctest
     doctest.testmod(extraglobs={'p': Parser('Add.asm')})
