@@ -44,6 +44,9 @@ class Assembler:
             self.binary_code.append(binary)
 
     def save(self):
+        """
+        writes the binary code into a hack file.
+        """
         with open(self.file.replace('asm', 'hack'), 'w') as f:
             for code in self.binary_code:
                 f.writelines(code + '\n')
