@@ -43,8 +43,13 @@ class SymbolTable:
     def contains(self, symbol: str) -> bool:
         """
         returns True if the symbol table contains the given symbol.
+        
+        >>> t.contains('R0')
+        True
+        >>> t.contains('UNIVERSE')
+        False
         """
-        pass
+        return not self.symbol_table.get(symbol) is None
 
     def get_address(self, symbol: str) -> int:
         """
