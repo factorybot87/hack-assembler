@@ -23,6 +23,10 @@ class Assembler:
     def convert(self):
         """
         converts a hack program to its binary representation.
+
+        >>> a.convert()
+        >>> a.binary_code
+        ['0000000000000010']
         """
         parser = Parser(self.file)
         code   = Code()
@@ -62,5 +66,5 @@ def main():
 
 if __name__ == '__main__':
     import doctest
-    doctest.testmod()
+    doctest.testmod(extraglobs={'a': Assembler('test.asm')})
     main()
