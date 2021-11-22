@@ -20,6 +20,18 @@ class Assembler:
         self.file = file
         self.binary_code = []
 
+    def first_pass(self):
+        """
+        builds a symbol table that contains all the label symbols.
+        """
+        pass
+
+    def second_pass(self):
+        """
+        converts a hack program to its binary representation.
+        """
+        pass
+
     def convert(self):
         """
         converts a hack program to its binary representation.
