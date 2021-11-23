@@ -2,6 +2,7 @@ import sys
 
 from parser import Parser
 from code import Code
+from symbol_table import SymbolTable
 
 class Assembler:
     WIDTH = 16
@@ -15,44 +16,67 @@ class Assembler:
 
         attribute:
         file: saves the arguments that has same name.
-        binary_code: hack program in binary representation
+        binary_code: hack program in binary representation.
+        symbol_table: contains the built-in symbols and the symbolic references.
         """
         self.file = file
         self.binary_code = []
+        self.symbol_table = SymbolTable()
 
     def first_pass(self):
         """
         builds a symbol table that contains all the label symbols.
+
+        >>> a.first_pass()
+        >>> a.symbol_table.contains('OUTPUT_FIRST')
+        True
+        >>> a.symbol_table.get_address('OUTPUT_FIRST')
+        2
         """
-        pass
+        parser = Parser(self.file)
+        line_nunber_counter = -1
+
+        while parser.has_more_lines():
+            parser.advance()
+            if parser.instruction_type() == parser.L_INSTRUCTION:
+                self.symbol_table.add_entry(parser.symbol(), line_nunber_counter + 1)
+            else:
+                line_nunber_counter += 1
 
     def second_pass(self):
         """
         converts a hack program to its binary representation.
-        """
-        pass
 
-    def convert(self):
-        """
-        converts a hack program to its binary representation.
-
-        >>> a.convert()
+        >>> a.second_pass()
         >>> a.binary_code
-        ['0000000000000010']
+        ['0000000000000010', '1110101010000111', '0000000000000000', '1111110000010000']
         """
         parser = Parser(self.file)
         code   = Code()
-        
+
+        next_available_address = 16
+
         while parser.has_more_lines():
             parser.advance()
             if parser.instruction_type() == parser.A_INSTRUCTION:
+                symbol = parser.symbol()
+                if symbol.isnumeric():
+                    address = symbol
+                elif self.symbol_table.contains(symbol):
+                    address = self.symbol_table.get_address(symbol)
+                else:
+                    address = next_available_address
+                    self.symbol_table.add_entry(symbol, address)
+                    next_available_address += 1
                 binary = self.A_PREFIX + \
-                         Assembler.convert_decimal_to_binary_bits(int(parser.symbol()))
+                         Assembler.convert_decimal_to_binary_bits(int(address))
             elif parser.instruction_type() == parser.C_INSTRUCTION:
                 binary = self.C_PREFIX + \
                          code.comp(parser.comp()) + \
                          code.dest(parser.dest()) + \
                          code.jump(parser.jump())
+            else:
+                continue
             self.binary_code.append(binary)
 
     def save(self):
@@ -76,7 +100,8 @@ def main():
         print('\nUsage: python3 assembler.py file')
     else:
         assembler = Assembler(sys.argv[1])
-        assembler.convert()
+        assembler.first_pass()
+        assembler.second_pass()
         assembler.save()
 
 if __name__ == '__main__':

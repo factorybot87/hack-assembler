@@ -3,4 +3,5 @@ Add.asm
 Max.asm
 Pong.asm
 Rect.asm
+*.hack
 __pycache__/
