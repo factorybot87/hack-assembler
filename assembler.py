@@ -28,10 +28,6 @@ class Assembler:
         builds a symbol table that contains all the label symbols.
 
         >>> a.first_pass()
-        >>> a.symbol_table.contains('OUTPUT_D')
-        True
-        >>> a.symbol_table.get_address('OUTPUT_D')
-        16
         >>> a.symbol_table.contains('OUTPUT_FIRST')
         True
         >>> a.symbol_table.get_address('OUTPUT_FIRST')
@@ -39,7 +35,6 @@ class Assembler:
         """
         parser = Parser(self.file)
         line_nunber_counter = -1
-        next_available_address = 16
 
         while parser.has_more_lines():
             parser.advance()
@@ -47,10 +42,6 @@ class Assembler:
                 self.symbol_table.add_entry(parser.symbol(), line_nunber_counter + 1)
             else:
                 line_nunber_counter += 1
-                if parser.instruction_type() == parser.A_INSTRUCTION:
-                    if not parser.symbol().isnumeric() and not self.symbol_table.contains(parser.symbol()):
-                        self.symbol_table.add_entry(parser.symbol(), next_available_address)
-                        next_available_address += 1
 
     def second_pass(self):
         """
@@ -58,15 +49,25 @@ class Assembler:
 
         >>> a.second_pass()
         >>> a.binary_code
-        ['0000000000010000', '1110101010000111', '0000000000000000', '1111110000010000']
+        ['0000000000000010', '1110101010000111', '0000000000000000', '1111110000010000']
         """
         parser = Parser(self.file)
         code   = Code()
 
+        next_available_address = 16
+
         while parser.has_more_lines():
             parser.advance()
             if parser.instruction_type() == parser.A_INSTRUCTION:
-                address = parser.symbol() if parser.symbol().isnumeric() else self.symbol_table.get_address(parser.symbol())
+                symbol = parser.symbol()
+                if symbol.isnumeric():
+                    address = symbol
+                elif self.symbol_table.contains(symbol):
+                    address = self.symbol_table.get_address(symbol)
+                else:
+                    address = next_available_address
+                    self.symbol_table.add_entry(symbol, address)
+                    next_available_address += 1
                 binary = self.A_PREFIX + \
                          Assembler.convert_decimal_to_binary_bits(int(address))
             elif parser.instruction_type() == parser.C_INSTRUCTION:
