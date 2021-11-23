@@ -51,36 +51,31 @@ class Assembler:
                     if not parser.symbol().isnumeric() and not self.symbol_table.contains(parser.symbol()):
                         self.symbol_table.add_entry(parser.symbol(), next_available_address)
                         next_available_address += 1
-            
-                
 
     def second_pass(self):
         """
         converts a hack program to its binary representation.
-        """
-        pass
 
-    def convert(self):
-        """
-        converts a hack program to its binary representation.
-
-        >>> a.convert()
+        >>> a.second_pass()
         >>> a.binary_code
-        ['0000000000000010']
+        ['0000000000010000', '1110101010000111', '0000000000000000', '1111110000010000']
         """
         parser = Parser(self.file)
         code   = Code()
-        
+
         while parser.has_more_lines():
             parser.advance()
             if parser.instruction_type() == parser.A_INSTRUCTION:
+                address = parser.symbol() if parser.symbol().isnumeric() else self.symbol_table.get_address(parser.symbol())
                 binary = self.A_PREFIX + \
-                         Assembler.convert_decimal_to_binary_bits(int(parser.symbol()))
+                         Assembler.convert_decimal_to_binary_bits(int(address))
             elif parser.instruction_type() == parser.C_INSTRUCTION:
                 binary = self.C_PREFIX + \
                          code.comp(parser.comp()) + \
                          code.dest(parser.dest()) + \
                          code.jump(parser.jump())
+            else:
+                continue
             self.binary_code.append(binary)
 
     def save(self):
@@ -104,7 +99,8 @@ def main():
         print('\nUsage: python3 assembler.py file')
     else:
         assembler = Assembler(sys.argv[1])
-        assembler.convert()
+        assembler.first_pass()
+        assembler.second_pass()
         assembler.save()
 
 if __name__ == '__main__':
